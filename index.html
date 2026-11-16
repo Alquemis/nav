@@ -161,16 +161,60 @@
   .xm-wish { font-family:Georgia,"Times New Roman",serif; font-style:italic; font-weight:700; font-size:16px !important; color:#991b1b !important; margin-top:2px; }
 
   /* ── PANTALLA DE ÉXITO ── */
-  .success-wrap { display:none; text-align:center; padding:44px 28px; }
-  .success-wrap.show { display:block; }
-  .success-icon {
-    width:70px; height:70px; border-radius:50%; background:#dcfce7; color:#15803d;
-    display:flex; align-items:center; justify-content:center; margin:0 auto 18px;
+  .success-wrap { display:none; text-align:center; padding:6px 0 4px; }
+  .success-wrap.show { display:block; animation: sc-in .45s ease-out both; }
+  @keyframes sc-in { from { opacity:0; transform:translateY(14px) scale(.97); } to { opacity:1; transform:none; } }
+  .sc-card {
+    position:relative; border-radius:14px; padding:34px 18px 20px; overflow:hidden;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(185,28,28,.06) 0 40px, transparent 41px),
+      radial-gradient(circle at 88% 82%, rgba(21,128,61,.07) 0 50px, transparent 51px),
+      linear-gradient(180deg,#fffaf3 0%,#fff 60%,#fdf6ee 100%);
+    box-shadow: inset 0 0 0 2px rgba(212,160,23,.35), inset 0 0 0 6px #fffaf3, inset 0 0 0 7px rgba(185,28,28,.25), 0 8px 22px rgba(0,0,0,.25);
   }
-  .success-icon svg { width:34px; height:34px; }
-  .success-title { font-size:19px; font-weight:800; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.35); margin-bottom:8px; }
-  .success-sub { font-size:13.5px; color:rgba(255,255,255,.88); line-height:1.6; margin-bottom:22px; }
-  .edit-link { background:none; border:none; color:#fbbf24; font-size:13.5px; font-weight:700; cursor:pointer; text-decoration:underline; }
+  .sc-card .xm-garland { position:absolute; top:0; left:0; right:0; margin:0; }
+  /* Check animado: el círculo y la palomita se dibujan, con un aro que late y destellos que salen */
+  .sc-check { position:relative; width:78px; height:78px; margin:6px auto 14px; }
+  .sc-check svg { width:78px; height:78px; display:block; position:relative; z-index:1; }
+  .sc-circle { fill:#dcfce7; stroke:#15803d; stroke-width:2.5; stroke-dasharray:151; stroke-dashoffset:151; animation: sc-draw .6s .1s ease-out forwards; }
+  .sc-tick { fill:none; stroke:#15803d; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:40; stroke-dashoffset:40; animation: sc-draw .35s .6s ease-out forwards; }
+  .sc-check.sc-cancel .sc-circle { fill:#fef3c7; stroke:#a16207; }
+  .sc-check.sc-cancel .sc-tick { stroke:#a16207; }
+  @keyframes sc-draw { to { stroke-dashoffset:0; } }
+  .sc-ring { position:absolute; inset:0; border-radius:50%; border:2px solid rgba(212,160,23,.7); animation: sc-ring 2s 1s ease-out infinite; }
+  @keyframes sc-ring { 0% { transform:scale(1); opacity:.9; } 100% { transform:scale(1.55); opacity:0; } }
+  .sc-burst { position:absolute; left:50%; top:50%; width:0; height:0; }
+  .sc-burst i { position:absolute; left:-4px; top:-4px; width:8px; height:8px; border-radius:50%; opacity:0;
+    background:#d4a017; animation: sc-burst .8s .75s ease-out forwards; }
+  .sc-burst i:nth-child(3n+2) { background:#b91c1c; } .sc-burst i:nth-child(3n) { background:#15803d; }
+  .sc-burst i:nth-child(1) { --x:0px;   --y:-58px; } .sc-burst i:nth-child(2) { --x:41px;  --y:-41px; }
+  .sc-burst i:nth-child(3) { --x:58px;  --y:0px;   } .sc-burst i:nth-child(4) { --x:41px;  --y:41px; }
+  .sc-burst i:nth-child(5) { --x:0px;   --y:58px;  } .sc-burst i:nth-child(6) { --x:-41px; --y:41px; }
+  .sc-burst i:nth-child(7) { --x:-58px; --y:0px;   } .sc-burst i:nth-child(8) { --x:-41px; --y:-41px; }
+  @keyframes sc-burst { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(var(--x),var(--y)) scale(1); } }
+  .sc-check.sc-cancel .sc-burst { display:none; }
+  .sc-title { font-family:Georgia,"Times New Roman",serif; font-style:italic; font-weight:700; font-size:25px; color:#991b1b; line-height:1.2; margin-bottom:6px; }
+  .sc-sub { font-size:13.5px; font-weight:600; color:#14532d; line-height:1.5; margin-bottom:16px; }
+  .sc-reminder {
+    position:relative; color:#fff; border-radius:14px; padding:12px 12px 11px; margin:0 4px 14px;
+    background:linear-gradient(135deg,#b91c1c 0%,#7f1d1d 100%); box-shadow:0 8px 18px rgba(127,29,29,.25);
+  }
+  .sc-reminder::before, .sc-reminder::after { content:''; position:absolute; top:50%; width:16px; height:16px; margin-top:-8px; border-radius:50%; background:#fffaf3; }
+  .sc-reminder::before { left:-8px; } .sc-reminder::after { right:-8px; }
+  .sc-rem-label { font-size:10.5px; letter-spacing:1.8px; text-transform:uppercase; font-weight:700; opacity:.9; }
+  .sc-rem-amount { font-size:32px; font-weight:800; color:#fde68a; line-height:1.15; }
+  .sc-rem-date { display:inline-block; font-size:12.5px; background:rgba(255,255,255,.15); padding:3px 12px; border-radius:999px; margin-top:3px; }
+  .sc-rem-date b { color:#fde68a; }
+  .sc-wish { display:flex; align-items:center; justify-content:center; gap:8px; font-family:Georgia,"Times New Roman",serif; font-style:italic; font-weight:700; font-size:18px; color:#14532d; }
+  .sc-edit {
+    margin-top:14px; background:rgba(255,255,255,.12); border:1.5px solid rgba(253,230,138,.7); color:#fde68a;
+    font-size:13.5px; font-weight:700; padding:9px 18px; border-radius:999px; cursor:pointer; transition:background .2s;
+  }
+  .sc-edit:hover { background:rgba(255,255,255,.22); }
+  @media (prefers-reduced-motion: reduce) {
+    .success-wrap.show, .sc-ring, .sc-burst i { animation:none; }
+    .sc-circle, .sc-tick { animation:none; stroke-dashoffset:0; }
+  }
 
   /* ── CIERRE DE PLAZO ── */
   .closed-wrap { display:none; text-align:center; padding:50px 28px; }
@@ -416,7 +460,7 @@
             <div class="xm-step-ico" style="background:#fef3c7;color:#a16207;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13"/><path d="M3 12h18"/><path d="M12 8c-1.5-3-5-4-6-2s2 2 6 2c4 0 7 0 6-2s-4.5-1-6 2z"/></svg>
             </div>
-            <div><div class="xm-step-t">Entrega tu cuota</div><div class="xm-step-s">₡5 000 a más tardar el 26 de noviembre.</div></div>
+            <div><div class="xm-step-t">Entrega tu cuota</div><div class="xm-step-s">₡5 000 a más tardar el 27 de noviembre.</div></div>
           </div>
           <div class="xm-step">
             <div class="xm-step-ico" style="background:#dcfce7;color:#15803d;">
@@ -461,19 +505,42 @@
         </div>
       </div>
 
-      <button type="button" class="submit-btn" id="submit-btn" style="display:none;" onclick="submitRsvp()">Confirmar participación</button>
+      <button type="button" class="submit-btn xm-cta" id="submit-btn" style="display:none;" onclick="submitRsvp()"><span class="xm-cta-txt"><svg class="xm-cta-star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>Confirmar participación<svg class="xm-cta-star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg></span></button>
       <button type="button" class="submit-btn cancel-btn" id="cancel-btn" style="display:none;" onclick="cancelParticipacion()">Cancelar mi participación</button>
       <div class="msg" id="form-msg"></div>
     </form>
 
     <!-- ÉXITO -->
     <div class="success-wrap" id="success-wrap">
-      <div class="success-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <div class="sc-card">
+        <div class="xm-garland" aria-hidden="true">
+          <svg viewBox="0 0 320 34" preserveAspectRatio="none">
+            <path d="M0 6 Q40 30 80 8 T160 8 T240 8 T320 6" fill="none" stroke="#14532d" stroke-width="3" stroke-linecap="round"/>
+            <line x1="40" y1="17" x2="40" y2="22" stroke="#a16207" stroke-width="1.5"/><circle cx="40" cy="27" r="6" fill="#b91c1c"/>
+            <line x1="120" y1="17" x2="120" y2="22" stroke="#a16207" stroke-width="1.5"/><circle cx="120" cy="27" r="6" fill="#d4a017"/>
+            <line x1="200" y1="17" x2="200" y2="22" stroke="#a16207" stroke-width="1.5"/><circle cx="200" cy="27" r="6" fill="#15803d"/>
+            <line x1="280" y1="17" x2="280" y2="22" stroke="#a16207" stroke-width="1.5"/><circle cx="280" cy="27" r="6" fill="#b91c1c"/>
+          </svg>
+        </div>
+        <div class="sc-check" id="sc-check">
+          <span class="sc-ring"></span>
+          <svg viewBox="0 0 52 52"><circle class="sc-circle" cx="26" cy="26" r="24"/><path class="sc-tick" d="M15 27l7 7 15-16"/></svg>
+          <span class="sc-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="sc-title" id="success-title"></div>
+        <div class="sc-sub" id="success-sub"></div>
+        <div class="sc-reminder" id="success-reminder">
+          <div class="sc-rem-label">Recuerda entregar tu cuota</div>
+          <div class="sc-rem-amount"><span class="xm-colon">₡</span>5 000</div>
+          <div class="sc-rem-date">antes del <b id="success-date"></b></div>
+        </div>
+        <div class="sc-wish" id="success-wish">
+          <svg class="xm-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5c.6 4.7 2.6 7.3 7.5 8.3-4.9 1-6.9 3.6-7.5 8.3-.6-4.7-2.6-7.3-7.5-8.3 4.9-1 6.9-3.6 7.5-8.3z"/></svg>
+          ¡Felices fiestas!
+          <svg class="xm-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5c.6 4.7 2.6 7.3 7.5 8.3-4.9 1-6.9 3.6-7.5 8.3-.6-4.7-2.6-7.3-7.5-8.3 4.9-1 6.9-3.6 7.5-8.3z"/></svg>
+        </div>
       </div>
-      <div class="success-title" id="success-title"></div>
-      <div class="success-sub" id="success-sub"></div>
-      <button class="edit-link" id="edit-link" onclick="showForm()">¿Necesitas cambiar tu respuesta?</button>
+      <button class="sc-edit" id="edit-link" onclick="showForm()">¿Necesitas cambiar tu respuesta?</button>
     </div>
 
     <!-- PLAZO CERRADO -->
@@ -482,7 +549,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       </div>
       <div class="closed-title">Ya no es posible cambiar tu confirmación de participación</div>
-      <div class="closed-sub">Por favor comuníquese con Recursos Humanos.</div>
+      <div class="closed-sub">Por favor comuníquese con<br><b style="color:#fde68a;font-size:16px;">Maria Marquero</b></div>
     </div>
 
   </div>
@@ -499,12 +566,12 @@ const CONFIG = {
   sede: 'Heredia',                 // se guarda en lugar_salida
   titulo: '¡Bota navideña!',
   subtitulo: '',
-  // Plazo: 26 de noviembre a las 24 h, hora de Costa Rica (UTC-6)
-  // = 27 de noviembre 06:00 UTC.
-  deadlineUTC: '2026-11-27T06:00:00Z',
-  deadlineTexto: '26 de noviembre',
+  // Plazo: 27 de noviembre a las 24 h, hora de Costa Rica (UTC-6)
+  // = 28 de noviembre 06:00 UTC.
+  deadlineUTC: '2026-11-28T06:00:00Z',
+  deadlineTexto: '27 de noviembre',
   exitoTitulo: '¡Participación confirmada!',
-  exitoTexto: 'Gracias por confirmar. Recuerda entregar tu cuota de ₡5 000 antes del 26 de noviembre. ¡Felices fiestas!'
+  exitoTexto: 'Gracias por confirmar, ya estás en la lista.'
 };
 
 const SUPABASE_URL = 'https://jdifschnvycvxlcbexdl.supabase.co';
@@ -629,12 +696,20 @@ function closeScrollWarn() {
   document.getElementById('scroll-warn-modal').classList.remove('show');
 }
 
-function _showSuccess(titulo, texto) {
+// conRecordatorio: muestra el boleto "Recuerda entregar tu cuota" y el
+// deseo de fiestas (solo al confirmar; no al cancelar).
+function _showSuccess(titulo, texto, conRecordatorio) {
   document.getElementById('form-msg').classList.remove('show');
   document.getElementById('success-title').textContent = titulo;
   document.getElementById('success-sub').textContent = texto;
+  document.getElementById('success-date').textContent = CONFIG.deadlineTexto;
+  document.getElementById('success-reminder').style.display = conRecordatorio ? '' : 'none';
+  document.getElementById('success-wish').style.display     = conRecordatorio ? '' : 'none';
+  document.getElementById('sc-check').classList.toggle('sc-cancel', !conRecordatorio);
   document.getElementById('rsvp-form').style.display = 'none';
-  document.getElementById('success-wrap').classList.add('show');
+  const wrap = document.getElementById('success-wrap');
+  wrap.classList.remove('show'); void wrap.offsetWidth;   // reinicia la animación
+  wrap.classList.add('show');
 }
 
 async function submitRsvp() {
@@ -643,6 +718,7 @@ async function submitRsvp() {
   if (!_cedulaVerified || !nombre) { showMsg('Primero verifica tu cédula.', false); return; }
 
   const btn = document.getElementById('submit-btn');
+  const btnHtml = btn.innerHTML;
   btn.disabled = true; btn.textContent = 'Enviando…';
   // Una fila por cédula (upsert): si reenvía, no se duplica.
   const { error } = await sb.from(CONFIG.tabla).upsert({
@@ -651,11 +727,11 @@ async function submitRsvp() {
     lugar_salida: CONFIG.sede,
     updated_at: new Date().toISOString()
   }, { onConflict: 'cedula' });
-  btn.disabled = false; btn.textContent = 'Confirmar participación';
+  btn.disabled = false; btn.innerHTML = btnHtml;
 
   if (error) { showMsg('No se pudo guardar tu confirmación: ' + error.message, false); return; }
   _yaRegistrado = true;
-  _showSuccess(CONFIG.exitoTitulo, CONFIG.exitoTexto);
+  _showSuccess(CONFIG.exitoTitulo, CONFIG.exitoTexto, true);
 }
 
 async function cancelParticipacion() {
@@ -670,7 +746,7 @@ async function cancelParticipacion() {
   if (error) { showMsg('No se pudo cancelar: ' + error.message, false); return; }
   _yaRegistrado = false;
   _showSuccess('Participación cancelada',
-    'Gracias por avisarnos. Si cambias de opinión, puedes volver a confirmar antes del plazo.');
+    'Gracias por avisarnos. Si cambias de opinión, puedes volver a confirmar antes del plazo.', false);
 }
 
 // Luciérnagas: puntos dorados pequeños con posición, tamaño, brillo y ritmo
