@@ -185,13 +185,24 @@
   @keyframes sc-ring { 0% { transform:scale(1); opacity:.9; } 100% { transform:scale(1.55); opacity:0; } }
   .sc-burst { position:absolute; left:50%; top:50%; width:0; height:0; }
   .sc-burst i { position:absolute; left:-4px; top:-4px; width:8px; height:8px; border-radius:50%; opacity:0;
-    background:#d4a017; animation: sc-burst .8s .75s ease-out forwards; }
+    background:#d4a017; animation-duration:.8s; animation-delay:.75s; animation-timing-function:ease-out; animation-fill-mode:forwards; }
   .sc-burst i:nth-child(3n+2) { background:#b91c1c; } .sc-burst i:nth-child(3n) { background:#15803d; }
-  .sc-burst i:nth-child(1) { --x:0px;   --y:-58px; } .sc-burst i:nth-child(2) { --x:41px;  --y:-41px; }
-  .sc-burst i:nth-child(3) { --x:58px;  --y:0px;   } .sc-burst i:nth-child(4) { --x:41px;  --y:41px; }
-  .sc-burst i:nth-child(5) { --x:0px;   --y:58px;  } .sc-burst i:nth-child(6) { --x:-41px; --y:41px; }
-  .sc-burst i:nth-child(7) { --x:-58px; --y:0px;   } .sc-burst i:nth-child(8) { --x:-41px; --y:-41px; }
-  @keyframes sc-burst { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(var(--x),var(--y)) scale(1); } }
+  .sc-burst i:nth-child(1) { animation-name:sc-b1; }
+  .sc-burst i:nth-child(2) { animation-name:sc-b2; }
+  .sc-burst i:nth-child(3) { animation-name:sc-b3; }
+  .sc-burst i:nth-child(4) { animation-name:sc-b4; }
+  .sc-burst i:nth-child(5) { animation-name:sc-b5; }
+  .sc-burst i:nth-child(6) { animation-name:sc-b6; }
+  .sc-burst i:nth-child(7) { animation-name:sc-b7; }
+  .sc-burst i:nth-child(8) { animation-name:sc-b8; }
+  @keyframes sc-b1 { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(0px,-58px) scale(1); } }
+  @keyframes sc-b2 { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(41px,-41px) scale(1); } }
+  @keyframes sc-b3 { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(58px,0px) scale(1); } }
+  @keyframes sc-b4 { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(41px,41px) scale(1); } }
+  @keyframes sc-b5 { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(0px,58px) scale(1); } }
+  @keyframes sc-b6 { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(-41px,41px) scale(1); } }
+  @keyframes sc-b7 { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(-58px,0px) scale(1); } }
+  @keyframes sc-b8 { 0% { opacity:1; transform:translate(0,0) scale(.6); } 100% { opacity:0; transform:translate(-41px,-41px) scale(1); } }
   .sc-check.sc-cancel .sc-burst { display:none; }
   .sc-title { font-family:Georgia,"Times New Roman",serif; font-style:italic; font-weight:700; font-size:25px; color:#991b1b; line-height:1.2; margin-bottom:6px; }
   .sc-sub { font-size:13.5px; font-weight:600; color:#14532d; line-height:1.5; margin-bottom:16px; }
@@ -211,10 +222,6 @@
     font-size:13.5px; font-weight:700; padding:9px 18px; border-radius:999px; cursor:pointer; transition:background .2s;
   }
   .sc-edit:hover { background:rgba(255,255,255,.22); }
-  @media (prefers-reduced-motion: reduce) {
-    .success-wrap.show, .sc-ring, .sc-burst i { animation:none; }
-    .sc-circle, .sc-tick { animation:none; stroke-dashoffset:0; }
-  }
 
   /* ── CIERRE DE PLAZO ── */
   .closed-wrap { display:none; text-align:center; padding:50px 28px; }
@@ -246,7 +253,6 @@
   }
   @keyframes cta-shine { 0% { left:-60%; } 55%,100% { left:130%; } }
   @keyframes cta-twinkle { 0%,100% { transform:scale(.8) rotate(0deg); opacity:.7; } 50% { transform:scale(1.2) rotate(20deg); opacity:1; } }
-  @media (prefers-reduced-motion: reduce) { .xm-cta, .xm-cta::after, .xm-cta-star { animation:none; } }
   /* ── MÓVIL: todo en una sola pantalla vertical, sin scroll ──
      Se compacta el encabezado, los márgenes y el comunicado para que la
      tarjeta completa quepa en la altura del teléfono. */
@@ -331,12 +337,13 @@
     mix-blend-mode:screen;
     box-shadow:0 0 6px 2px rgba(255,255,230,.95), 0 0 14px 6px rgba(255,232,120,.85), 0 0 28px 12px rgba(253,224,71,.45);
     opacity:0;
-    animation: ff-blink var(--tw) ease-in-out infinite, ff-drift var(--dr) ease-in-out infinite alternate;
-    animation-delay: var(--dl), var(--dl);
+    will-change: opacity, transform;
   }
-  @keyframes ff-blink { 0%,100% { opacity:0; } 30%,70% { opacity:var(--op); } }
-  @keyframes ff-drift { from { transform:translate(0,0); } to { transform:translate(var(--dx),var(--dy)); } }
-  @media (prefers-reduced-motion: reduce) { .ff { animation:none; opacity:.5; } }
+  @keyframes ff-blink { 0%,100% { opacity:0; } 30%,70% { opacity:1; } }
+  @keyframes ff-drift-a { from { transform:translate(0,0); } to { transform:translate(22px,-34px); } }
+  @keyframes ff-drift-b { from { transform:translate(0,0); } to { transform:translate(-26px,-22px); } }
+  @keyframes ff-drift-c { from { transform:translate(0,0); } to { transform:translate(18px,16px); } }
+  @keyframes ff-drift-d { from { transform:translate(0,0); } to { transform:translate(-14px,-40px); } }
   .card { position:relative; z-index:1; }
   /* ── MÓVIL: la tarjeta ocupa el alto de la pantalla y el comunicado se
      estira repartiendo el espacio entre sus bloques (sin generar scroll). ── */
@@ -761,8 +768,8 @@ async function cancelParticipacion() {
     const size = r(3.5, 7).toFixed(1);
     html += '<span class="ff" style="left:' + r(0, 100).toFixed(1) + '%;top:' + r(0, 100).toFixed(1) + '%;' +
       'width:' + size + 'px;height:' + size + 'px;' +
-      '--tw:' + r(2.5, 5.5).toFixed(1) + 's;--dr:' + r(6, 12).toFixed(1) + 's;--dl:-' + r(0, 6).toFixed(1) + 's;' +
-      '--op:' + r(.85, 1).toFixed(2) + ';--dx:' + r(-30, 30).toFixed(0) + 'px;--dy:' + r(-40, 20).toFixed(0) + 'px;"></span>';
+      'animation:ff-blink ' + r(2.5, 5.5).toFixed(1) + 's ease-in-out -' + r(0, 5).toFixed(1) + 's infinite,' +
+      ' ff-drift-' + 'abcd'[Math.floor(Math.random() * 4)] + ' ' + r(6, 12).toFixed(1) + 's ease-in-out -' + r(0, 6).toFixed(1) + 's infinite alternate;"></span>';
   }
   box.innerHTML = html;
   // Cada vez que una luciérnaga termina de apagarse (fin del ciclo de
@@ -773,8 +780,6 @@ async function cancelParticipacion() {
     const el = e.target;
     el.style.left = r(0, 100).toFixed(1) + '%';
     el.style.top  = r(0, 100).toFixed(1) + '%';
-    el.style.setProperty('--dx', r(-30, 30).toFixed(0) + 'px');
-    el.style.setProperty('--dy', r(-40, 20).toFixed(0) + 'px');
   });
 })();
 
